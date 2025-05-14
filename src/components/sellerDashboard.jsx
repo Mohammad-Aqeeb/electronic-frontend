@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
 import './SellerDashboard.css';
+import api from '../api';
+import { UserContex } from '../contex/userContex';
 
 const SellerDashboard = () => {
   const [orders, setOrders] = useState([]);
-  const sellerId = 'seller123'; // Hardcoded for now
+  const user = localStorage.getItem("user");
+  console.log(user);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/seller-orders/${sellerId}`);
+        const res = await api.get(`seller-orders/${user._id}`);
         setOrders(res.data);
       } catch (err) {
         console.error('Error fetching orders', err);

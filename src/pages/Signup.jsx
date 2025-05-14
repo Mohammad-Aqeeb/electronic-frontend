@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';
+import api from '../api';
+import toast from 'react-hot-toast';
 
 function Signup() {
   const navigate = useNavigate();
-  const [ formData, setFormData ] = useState({name : "", email : "" , password : "", confirmPassword : "", role : ""});
+  const [ formData, setFormData ] = useState({name : "", email : "", phone: "", password : "", confirmPassword : "", role : ""});
 
   function changeHandler(event){
     setFormData((prev)=>{
@@ -15,9 +17,17 @@ function Signup() {
     })
   }
 
-  function handleSubmit(event){
+  async function handleSubmit(event){
     event.preventDefault();
-    console.log(formData)
+    try{
+     const res = await api.post("/userSignup", formData); 
+     console.log(res.data);
+     toast.success("User Signup success");
+     navigate("/login");
+    }
+    catch(error){
+      console.log(error);
+    }
   };
 
   return (
@@ -48,6 +58,17 @@ function Signup() {
             id="email" 
             placeholder="you@example.com"
             name='email'
+            onChange={changeHandler}
+            required 
+          />
+
+          <label htmlFor="phone">Phone</label>
+          <input 
+            type="phone" 
+            id="phone"
+            className='loginInput'
+            placeholder="Enter your phone no."
+            name='phone'
             onChange={changeHandler}
             required 
           />

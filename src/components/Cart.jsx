@@ -2,11 +2,12 @@ import React, { useContext, useEffect } from 'react';
 import './Cart.css'; // if you created a separate file
 import { CartContext } from '../contex/CartContex';
 import { UserContex } from '../contex/userContex';
-import axios from 'axios';
+import api from '../api';
 
 function Cart() {
   const { cartItems, setCartItems} = useContext(CartContext);
   const {user} = useContext(UserContex);
+  console.log(user);
 
   let totalAmount = cartItems.reduce((total , item)=>
     total + item.item_price * item.item_qty, 0
@@ -14,15 +15,20 @@ function Cart() {
 
   function checkOutHandler(){
     cartItems.map(async (item)=>{
-      // await axios.post("http://localhost:5000/api/postMyOrder", item);
+      await api.post("postMyOrder", item);
       console.log(item)
     })
   }
 
   async function getCartItem(){
     if(user){
-      const res = await axios.get(`http://localhost:5000/api/getCartData/${user._id}`);
-      setCartItems(res.data.data);
+      try{
+        const res = await api.get(`/getCartData/${user._id}`);
+        setCartItems(res.data.data);
+      }
+      catch(error){
+        console.log(error);
+      }
     }
   }
 

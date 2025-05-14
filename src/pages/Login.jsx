@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import { UserContex } from '../contex/userContex';
 import toast from 'react-hot-toast';
-import axios from 'axios';
+import api from '../api';
 
 function Login() {
 
   const navigate = useNavigate();
   const [ formData, setFormData ] = useState({email : "" , password : "", rememberMe : false});
-  const {setUser}  = useContext(UserContex);
-
+  const {setUser} = useContext(UserContex);
   function changeHandler(event){
     setFormData((prev)=>{
         return({
@@ -22,10 +21,18 @@ function Login() {
 
   async function handleSubmit(event){
     event.preventDefault();   
-    const res = await axios.post("http://localhost:5000/api/userLogin", formData);
-    setUser(res.data.data);
-    toast.success("User Login success");
-    navigate("/");
+    try{
+      const res = await api.post("/userLogin", formData);
+      console.log(res.data);
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", res.data.user);
+      setUser(res.data);
+      toast.success("User Login success");
+      navigate("/");
+    }
+    catch(error){
+      toast.error(error);
+    }
   }
 
   return (

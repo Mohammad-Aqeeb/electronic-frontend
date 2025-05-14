@@ -3,9 +3,11 @@ import './CreateProduct.css';
 import toast from 'react-hot-toast';
 import axios from "axios"
 import { UserContex } from '../contex/userContex';
+import api from '../api';
 
 function CreateProduct() {
   const {user} = useContext(UserContex)
+  console.log(user);
   const [formData, setFormData] = useState({
     seller_id : user._id,
     item_name: '',
@@ -47,7 +49,7 @@ function CreateProduct() {
     formPayload.append("item_image", formData.item_image);
     formPayload.append("seller_id", formData.seller_id);
 
-    await axios.post("http://localhost:5000/api/addProduct", formPayload, {
+    api.post("/addProduct", formPayload, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

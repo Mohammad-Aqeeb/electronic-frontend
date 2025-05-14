@@ -2,9 +2,7 @@ import React, { useContext, useState } from 'react';
 import './Home.css';
 import Header from "../components/Header";
 import ProductCard from '../components/ProductCard';
-import axios from 'axios';
 import api from '../api';
-import { UserContex } from '../contex/userContex';
 
 // { id: 1, name: "Wireless Headphones", price: 59.99, image: "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6296/6296111_rd.jpg"},
 // { id: 2, name: "Smart Watch", price: 89.99, image: "" },
@@ -13,25 +11,13 @@ import { UserContex } from '../contex/userContex';
 
 function Home() {
   const [products, setProducts] = useState([]);
-  const {setUser} = useContext(UserContex)
 
   async function getData(){
-    const res = await api.get("itemGet");
+    const res = await api.get("/itemGet");
     setProducts(res.data.data);
   }
 
   useState(()=>{
-    const token = localStorage.getItem('token');
-    if (token) {
-      // user data fetch karo
-      api.get('/getUserProfile') // example endpoint
-        .then(res => {
-          setUser(res.data.user); // ya jaisa aap backend se bhej rahe ho
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    }
     getData();
   },[])
 

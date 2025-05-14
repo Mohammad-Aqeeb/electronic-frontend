@@ -3,6 +3,7 @@ import './ProductCard.css';
 import { UserContex } from '../contex/userContex';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import api from '../api';
 
 
 function ProductCard({item}) {
@@ -23,14 +24,13 @@ function ProductCard({item}) {
         item_discount : item.item_discount
       }
       console.log(obj);
-      await axios.post("http://localhost:5000/api/addCart", obj)
+      await api.post("/addCart", obj)
       .then(()=>{
-        toast.success("item added to cart")
+        toast.success("item added to cart");
       })
       .catch(()=>{
         toast.error("Item not added");
       })
-      
     }
   }
 

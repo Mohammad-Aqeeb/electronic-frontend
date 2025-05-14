@@ -1,10 +1,15 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
 import { UserContex } from '../contex/userContex';
 
 function Header() {
-  const {user} = useContext(UserContex);
+  const {user, setUser} = useContext(UserContex);
+
+  function logoutHandler(){
+    localStorage.removeItem("token");
+    setUser(null);
+  }
 
   return (
     <header className="header">
@@ -21,9 +26,9 @@ function Header() {
         {user ? 
           (
             <div>
-              <Link to="/createProduct">create</Link>
+              <Link onClick={logoutHandler}>Singout</Link>
             </div>
-          ) :  
+          ) : 
           (
             <div>
               <Link to="/login">Login</Link>

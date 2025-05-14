@@ -39,6 +39,11 @@
     cursor: pointer;
   }
   
+  .right{
+    display: flex;
+    align-items: center;
+  }
+
   .right a {
     font-size: 18px;
     margin-left: 18px;

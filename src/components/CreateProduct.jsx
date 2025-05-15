@@ -1,13 +1,11 @@
 import React, { useContext, useState } from 'react';
 import './CreateProduct.css';
 import toast from 'react-hot-toast';
-import axios from "axios"
-import { UserContex } from '../contex/userContex';
 import api from '../api';
 
 function CreateProduct() {
-  const {user} = useContext(UserContex)
-  console.log(user);
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const [formData, setFormData] = useState({
     seller_id : user._id,
     item_name: '',

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import './Cart.css'; // if you created a separate file
 import { CartContext } from '../contex/CartContex';
-import { UserContex } from '../contex/userContex';
 import api from '../api';
+import { useNavigate } from 'react-router-dom';
 
 function Cart() {
+  const naviagte = useNavigate();
   const { cartItems, setCartItems} = useContext(CartContext);
-  const {user} = useContext(UserContex);
-  console.log(user);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   let totalAmount = cartItems.reduce((total , item)=>
     total + item.item_price * item.item_qty, 0
@@ -15,9 +15,12 @@ function Cart() {
 
   function checkOutHandler(){
     cartItems.map(async (item)=>{
-      await api.post("postMyOrder", item);
-      console.log(item)
+      await api.post("/postMyOrder", item);
+      await api.delete(`/deleteCartItem/${item._id}`);
+      console.log(item);
     })
+    naviagte("/MyOrder"); 
+    setCartItems([]);
   }
 
   async function getCartItem(){

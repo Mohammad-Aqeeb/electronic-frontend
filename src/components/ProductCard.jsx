@@ -8,10 +8,12 @@ import api from '../api';
 
 function ProductCard({item}) {
 
-  const {user} = useContext(UserContex);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   async function addtoCartHandler(item){
     if(user){
+      console.log(user);
+      console.log(user._id);
       const obj = {
         user_id : user._id,
         item_id : item._id,

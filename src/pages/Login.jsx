@@ -9,7 +9,7 @@ function Login() {
 
   const navigate = useNavigate();
   const [ formData, setFormData ] = useState({email : "" , password : "", rememberMe : false});
-  const {setUser} = useContext(UserContex);
+  
   function changeHandler(event){
     setFormData((prev)=>{
         return({
@@ -23,10 +23,10 @@ function Login() {
     event.preventDefault();   
     try{
       const res = await api.post("/userLogin", formData);
-      console.log(res.data);
+
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", res.data.user);
-      setUser(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      
       toast.success("User Login success");
       navigate("/");
     }

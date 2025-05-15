@@ -1,42 +1,26 @@
-  .container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    min-height: 100vh;
-  }
-  
-  .card {
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  }
-  
-  .header {
-    font-size: 1.5rem;
-    color: #343a40;
-    margin-bottom: 16px;
-  }
-  
-  .buyer {
-    font-weight: bold;
-    color: #007bff;
-  }
-  
-  .order-time {
-    color: #6c757d;
-    font-size: 0.9rem;
-  }
-  
-  .total {
-    font-weight: bold;
-    margin-top: 10px;
-    color: #28a745;
-  }
-  
-  .item {
-    padding: 4px 0;
-  }
-  
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+}
+
+.product-image {
+  max-width: 100px;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 4px;
+}

@@ -1,14 +1,18 @@
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
-import { UserContex } from '../contex/userContex';
+import { CartContext } from '../contex/CartContex';
 
 function Header() {
-  const {user, setUser} = useContext(UserContex);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const {cartItems} = useContext(CartContext)
+
+  const navigate = useNavigate();
 
   function logoutHandler(){
     localStorage.removeItem("token");
-    setUser(null);
+    localStorage.removeItem("user");
+    navigate("/login");
   }
 
   return (
@@ -26,7 +30,7 @@ function Header() {
         {user ? 
           (
             <div>
-              <Link onClick={logoutHandler}>Singout</Link>
+              <div className='signoutButton' onClick={logoutHandler}>Singout</div>
             </div>
           ) : 
           (
@@ -37,7 +41,10 @@ function Header() {
           )
         }
         
-        <Link to="/cart">🛒</Link>
+        <div className='cartContainer'>
+          <Link to="/cart">🛒</Link>
+          <div className='cartLength'>{cartItems.length}</div>
+        </div>
       </div>
     </header>
   );

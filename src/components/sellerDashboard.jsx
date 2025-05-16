@@ -5,7 +5,7 @@ import api from '../api';
 const SellerDashboard = () => {
   const [orders, setOrders] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
-
+  console.log(orders);
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -26,7 +26,7 @@ const SellerDashboard = () => {
 
   return (
     <div className="container">
-      <h2 className="header">📦 New Orders</h2>
+      <h2 className="seller-header">📦 New Orders</h2>
       {orders.length === 0 ? (
         <p>No new orders yet.</p>
       ) : (
@@ -36,9 +36,9 @@ const SellerDashboard = () => {
             <p className="order-time">🕒 {new Date(order.createdAt).toLocaleString()}</p>
             <p className="product">📦 {order.item_name}</p>
             <p className="category">🏷️ Category: {order.item_category}</p>
-            <p className="price">💰 Price: ₹{order.item_price}</p>
+            <p className="price">💰 Price: ${order.item_price}</p>
             <p className="quantity">🔢 Quantity: {order.item_qty}</p>
-            <p className="subtotal">🧾 Subtotal: ₹{order.item_subtotal}</p>
+            <p className="subtotal">🧾 Subtotal: ${(order.item_subtotal).toFixed(2)}</p>
             <img src={order.item_image} alt={order.item_name} className="product-image" />
           </div>
         ))

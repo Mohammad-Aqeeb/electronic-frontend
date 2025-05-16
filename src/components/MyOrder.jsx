@@ -7,14 +7,6 @@ function MyOrder() {
   const [orders, setOrders] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
-    if (user && user._id) {
-      fetchOrders();
-    } else {
-      toast.error("User not logged in");
-    }
-  }, []);
-
   const fetchOrders = async () => {
     try {
       const response = await api.get(`/getMyOrder/${user._id}`);
@@ -25,7 +17,14 @@ function MyOrder() {
     }
   };
 
-
+  useEffect(() => {
+    if (user && user._id) {
+      fetchOrders();
+    } else {
+      toast.error("User not logged in");
+    }
+  }, []);
+  
   return (
     <div className="orders-container">
       <h2>My Orders</h2>

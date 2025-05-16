@@ -47,12 +47,7 @@
     margin: 0 0 8px 0;
     font-size: 1.1rem;
   }
-  
-  /* Price */
-  .cart-item-details .price {
-    color: #333;
-    font-weight: bold;
-  }
+
   
   /* Quantity */
   .cart-item-details .quantity {
@@ -87,6 +82,22 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    outline: none;
+  }
+
+  .price {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .original-price {
+    text-decoration: line-through;
+    margin-left: 8px;
+    color: #999;
+  }
+  
+  .discounted-price {
+    color: #d32f2f;
   }
 
   .checkoutContainer{

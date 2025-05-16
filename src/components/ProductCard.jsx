@@ -1,19 +1,22 @@
 import React, { useContext } from 'react';
 import './ProductCard.css';
-import { UserContex } from '../contex/userContex';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import api from '../api';
+import { CartContext } from '../contex/CartContex';
+import { useNavigate } from 'react-router-dom';
 
 
 function ProductCard({item}) {
 
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const {cartItems, setCartItems} = useContext(CartContext);
+
+  const isInCart = cartItems.some((product)=>{ return product.item_id === item._id });
 
   async function addtoCartHandler(item){
     if(user){
-      console.log(user);
-      console.log(user._id);
       const obj = {
         user_id : user._id,
         item_id : item._id,
@@ -26,13 +29,17 @@ function ProductCard({item}) {
         item_discount : item.item_discount
       }
       console.log(obj);
-      await api.post("/addCart", obj)
-      .then(()=>{
+      try{
+        await api.post("/addCart", obj)
         toast.success("item added to cart");
-      })
-      .catch(()=>{
+        
+        const res = await api.get(`/getCartData/${user._id}`);
+        setCartItems(res.data.data);
+      }
+      catch(error){
         toast.error("Item not added");
-      })
+        console.log(error);
+      }
     }
   }
 
@@ -58,13 +65,16 @@ function ProductCard({item}) {
             <p className="price">${item.item_price.toFixed(2)}</p>
             )
         }
-
-        <button 
-          onClick={()=>{addtoCartHandler(item)}}
-          disabled={item.item_qty <= 0}
-        >
-          {item.item_qty > 0 ? "Add to Cart" : "Out of Stock"}
-        </button>
+        {
+          isInCart ?  
+          <button className='goToCartButton' onClick={()=>{navigate("/cart")}}>Go To Cart</button>
+          :
+          <button onClick={()=>{addtoCartHandler(item)}} disabled={item.item_qty <= 0} >
+          {
+            item.item_qty > 0 ? "Add to Cart" : "Out of Stock"
+          }
+          </button>
+        }
       </div>
     </div>
   );

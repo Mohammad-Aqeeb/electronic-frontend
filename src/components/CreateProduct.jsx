@@ -28,7 +28,7 @@ function CreateProduct() {
 
   function handleFileChange(e){
     const file = e.target.files[0];
-    console.log(file);
+
     if (file) {
       setFormData(prev => ({ ...prev, item_image: file}));
     }
@@ -47,17 +47,17 @@ function CreateProduct() {
     formPayload.append("item_image", formData.item_image);
     formPayload.append("seller_id", formData.seller_id);
 
-    api.post("/addProduct", formPayload, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    .then(()=>{
-        toast.success("Product Added successfully");
-    })
-    .catch(()=>{
-        toast.error("Product not added");
-    });
+    try{
+      api.post("/addProduct", formPayload, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      toast.success("Product Added successfully");
+    }
+    catch(error){
+      toast.error("Product not added");
+    };
 
     console.log(formData);
     // Clear form

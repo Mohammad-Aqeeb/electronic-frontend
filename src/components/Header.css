@@ -55,40 +55,88 @@
   .right a:hover {
     color: #007185;
   }
-  
-  .signoutButton {
-    font-size: 18px;
+
+  /* user icon + name signout etc */
+  .user-menu {
+    position: relative;
+    display: inline-block;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .user-name {
+    font-size: 19px;
     margin-left: 18px;
     text-decoration: none;
     color: #2a2a2a;
-    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s;
   }
 
-  .signoutButton:hover{
-     color: #007185;
+  .user-name:hover {
+    color: #007185;
   }
 
+  .user-icon {
+    font-size: 18px;
+    color: #333;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 28px;
+    right: 0;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: none;
+    min-width: 140px;
+    z-index: 1000;
+  }
+
+  .user-menu:hover .dropdown-menu {
+    display: block;
+  }
+
+  .dropdown-menu div {
+    padding: 10px 12px;
+    font-size: 14px;
+    color: #444;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .dropdown-menu div:hover {
+    background-color: #f8f8f8;
+    color: #007185;
+  }
+
+
+  /* For cart icon   */
   .cartContainer {
   position: relative;
-  margin-left: 20px;
-}
+  }
 
-.cartContainer a {
-  font-size: 24px; /* Make sure the cart icon is big enough */
-  position: relative;
-}
+  .cartContainer a {
+    font-size: 24px; /* Make sure the cart icon is big enough */
+    position: relative;
+  }
 
-.cartLength {
-  position: absolute;
-  top: -2px;
-  right: -8px;
-  font-size: 12px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background-color: red;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .cartLength {
+    position: absolute;
+    top: -2px;
+    right: -8px;
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

@@ -5,15 +5,12 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import {Toaster} from "react-hot-toast";
 import { CartProvider } from './contex/CartContex.jsx';
-import { UserProvider } from './contex/userContex.jsx'
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Toaster/>
-    <UserProvider>
-      <CartProvider>
-        <App />
-      </CartProvider>
-    </UserProvider>
+    <CartProvider>
+      <App />
+    </CartProvider>
   </BrowserRouter>
 )

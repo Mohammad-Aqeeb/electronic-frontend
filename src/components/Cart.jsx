@@ -3,23 +3,63 @@ import './Cart.css'; // if you created a separate file
 import { CartContext } from '../contex/CartContex';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 function Cart() {
-  const naviagte = useNavigate();
+  const navigate = useNavigate();
   const { cartItems, setCartItems} = useContext(CartContext);
   const user = JSON.parse(localStorage.getItem("user"));
 
   let totalAmount = cartItems.reduce((total , item)=>
-    total + item.item_price * item.item_qty, 0
+    total + item.item_subtotal, 0
   )
+
+  async function updatePlusHandler(id){
+    try{
+      await api.put(`updateQtyPlus/${id}`);
+      getCartItem();
+    }
+    catch(error){
+      console.log(error);
+      toast.error("Failed to update quantity")
+    }
+  }
+
+  async function updateMinusHandler(id){
+    try{
+      await api.put(`updateQtyMinus/${id}`);
+      getCartItem();
+    }
+    catch(error){
+      console.log(error);
+      toast.error("Failed to update quantity")
+    }
+  }
+
+  async function removeItemHandler(id){
+    try{
+      await api.delete(`/deleteCartItem/${id}`);
+      toast.success("Item deleted from cart");
+      getCartItem()
+    }
+    catch(error){
+      console.log(error);
+      toast.error("Failed to remove");
+    }
+  }
 
   function checkOutHandler(){
     cartItems.map(async (item)=>{
-      await api.post("/postMyOrder", item);
-      await api.delete(`/deleteCartItem/${item._id}`);
-      console.log(item);
+      try{
+        await api.post("/postMyOrder", item);
+        await api.delete(`/deleteCartItem/${item._id}`);
+      }
+      catch(error){
+        console.log(error);
+        toast.error(error.message);
+      }
     })
-    naviagte("/MyOrder"); 
+    navigate("/MyOrder"); 
     setCartItems([]);
   }
 
@@ -27,6 +67,7 @@ function Cart() {
     if(user){
       try{
         const res = await api.get(`/getCartData/${user._id}`);
+        console.log(res.data.data)
         setCartItems(res.data.data);
       }
       catch(error){
@@ -52,15 +93,26 @@ function Cart() {
               <img src={item.item_image} alt={item.item_name} />
               <div className="cart-item-details">
                 <h3>{item.item_name}</h3>
-                <div className="price">${item.item_price}</div>
+                {
+                  item.item_discount ? (
+                  <div className="price">
+                      <span className="discounted-price">
+                          ${(item.item_price * (1 - parseFloat(item.item_discount) / 100)).toFixed(2)}
+                      </span>
+                      <span className="original-price">${item.item_price.toFixed(2)}</span>
+                  </div>
+                  ) : (
+                  <div className="price">${item.item_price.toFixed(2)}</div>
+                  )
+                }
                 <div className="quantity-container">
                   <div>Quantity: </div>
-                  <button>+</button>
+                  <button onClick={()=>{updateMinusHandler(item._id)}}>-</button>
                   <div className="quantity">{item.item_qty}</div>
-                  <button>-</button>
+                  <button onClick={()=>{updatePlusHandler(item._id)}}>+</button>
                 </div>
               </div>
-              <button className='cart-item-button'>Remove</button>
+              <button className='cart-item-button' onClick={()=>{removeItemHandler(item._id)}}>Remove</button>
             </div>
           ))
         )
@@ -68,7 +120,7 @@ function Cart() {
 
       <div className='checkoutContainer'>
         <div>Total amount : {totalAmount.toFixed(2)}</div>
-        <button onClick={checkOutHandler}>CheckOut</button>
+        <button onClick={checkOutHandler} disabled={cartItems.length === 0}>CheckOut</button>
       </div>
     </div>
   );

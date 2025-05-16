@@ -1,12 +1,12 @@
+import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import Cart from './components/Cart';
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Home from './pages/Home';
-import './App.css';
+import Cart from './components/Cart';
+import MyOrder from './components/MyOrder';
 import CreateProduct from './components/CreateProduct';
 import SellerDashboard from './components/sellerDashboard';
-import MyOrder from './components/MyOrder';
 
 function App() {
   return (

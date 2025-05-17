@@ -19,7 +19,7 @@
 }
 
 .card {
-  width: 50%;
+  min-width: 500px;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 15px;
@@ -32,4 +32,18 @@
   height: auto;
   margin-top: 10px;
   border-radius: 4px;
+}
+
+.status-control {
+  justify-self: center;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-control select {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }

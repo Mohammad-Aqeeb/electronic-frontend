@@ -59,7 +59,7 @@ function Cart() {
         toast.error(error.message);
       }
     })
-    navigate("/MyOrder"); 
+    navigate("/MyOrder");
     setCartItems([]);
   }
 

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './MyOrder.css';
 import api from '../api';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 function MyOrder() {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -56,7 +58,7 @@ function MyOrder() {
           <div>{order.item_discount || '—'}%</div>
           <div>${parseFloat(order.item_subtotal).toFixed(2)}</div>
           <div>
-            <button className="cancel-btn">Track My Order</button>
+            <button className="cancel-btn" onClick={() => navigate(`/trackOrder/${order._id}`)}>Track My Order</button>
           </div>
         </div>
       ))}

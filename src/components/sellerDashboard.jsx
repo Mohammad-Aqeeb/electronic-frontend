@@ -5,7 +5,22 @@ import api from '../api';
 const SellerDashboard = () => {
   const [orders, setOrders] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(orders);
+  
+  async function handleStatusChange(id, orderId, newStatus){
+    try {
+      await api.put(`/updateOrderStatus/${orderId}`, { order_status: newStatus });
+      await api.put(`/updateOrderStatusInSeller/${id}`, { order_status: newStatus });
+      // Refresh orders after status change
+      const res = await api.get(`seller-orders/${user._id}`);
+      const updatedOrders = res.data.data.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      setOrders(updatedOrders);
+    } catch (err) {
+      console.error("Failed to update order status", err);
+    }
+  };
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -40,7 +55,24 @@ const SellerDashboard = () => {
             <p className="quantity">🔢 Quantity: {order.item_qty}</p>
             <p className="subtotal">🧾 Subtotal: ${(order.item_subtotal).toFixed(2)}</p>
             <img src={order.item_image} alt={order.item_name} className="product-image" />
-          </div>
+          <div className="status-control">
+          
+          <label>Status:</label>
+          <select
+            value={order.order_status}
+            onChange={(e) => handleStatusChange(order._id, order.order_id, e.target.value)}
+          >
+            <option value="Pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Packed">Packed</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Out for Delivery">Out for Delivery</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+          
+        </div>
         ))
       )}
     </div>

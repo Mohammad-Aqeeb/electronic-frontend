@@ -1,0 +1,59 @@
+.track-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 6px;
+}
+
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  position: relative;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 8%;
+  width: 85%;
+  height: 4px;
+  background: #ddd;
+  z-index: 0;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  width: 14%;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ddd;
+  margin-bottom: 5px;
+}
+
+.label {
+  font-size: 12px;
+  text-align: center;
+}
+
+.step.done .dot {
+  background: green;
+}
+
+.step.current .dot {
+  background: orange;
+}
+
+.step.upcoming .dot {
+  background: #ddd;
+}

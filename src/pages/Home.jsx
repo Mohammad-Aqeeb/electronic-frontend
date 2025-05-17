@@ -17,8 +17,8 @@ function Home() {
       let res = await api.get("/itemGet");
       setProducts(res.data.data);
       if(user){
-      res = await api.get(`/getCartData/${user._id}`);
-      setCartItems(res.data.data);
+        res = await api.get(`/getCartData/${user._id}`);
+        setCartItems(res.data.data);
       }
     }
     catch(error){

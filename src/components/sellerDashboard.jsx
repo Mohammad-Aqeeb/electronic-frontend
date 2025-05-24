@@ -1,80 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import './SellerDashboard.css';
-import api from '../api';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSellerOrders } from '../Redux/slice/sellerDashboardSlice';
 
 const SellerDashboard = () => {
-  const [orders, setOrders] = useState([]);
-  const user = JSON.parse(localStorage.getItem("user"));
-  
-  async function handleStatusChange(id, orderId, newStatus){
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {orders} = useSelector(state => state.sellerDashboard);
+
+  const fetchOrders = async () => {
     try {
-      await api.put(`/updateOrderStatus/${orderId}`, { order_status: newStatus });
-      await api.put(`/updateOrderStatusInSeller/${id}`, { order_status: newStatus });
-      // Refresh orders after status change
-      const res = await api.get(`seller-orders/${user._id}`);
-      const updatedOrders = res.data.data.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
-      setOrders(updatedOrders);
+      await dispatch(fetchSellerOrders()).unwrap();
     } catch (err) {
-      console.error("Failed to update order status", err);
+      console.error('Error fetching orders', err);
+      toast.error("Failed to fetch seller orders");
     }
   };
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await api.get(`seller-orders/${user._id}`);
-        const Orders = res.data.data.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
-        setOrders(Orders);
-      } catch (err) {
-        console.error('Error fetching orders', err);
-      }
-    };
-
-    fetchOrders();
-    const interval = setInterval(fetchOrders, 10000); // Poll every 10 seconds
-    return () => clearInterval(interval);
-  }, [user._id]);
+      fetchOrders();
+      const interval = setInterval(fetchOrders, 10000); // refresh every 10 sec
+      return () => clearInterval(interval);
+    }, []);
 
   return (
-    <div className="container">
-      <h2 className="seller-header">📦 New Orders</h2>
+    <div className="orders-container">
+      <h2> 📦 New Orders</h2>
       {orders.length === 0 ? (
-        <p>No new orders yet.</p>
+        <p>No orders yet</p>
       ) : (
-        orders.map((order) => (
-          <div key={order._id} className="card">
-            <p className="buyer">👤 Buyer: {order.user_name}</p>
-            <p className="order-time">🕒 {new Date(order.createdAt).toLocaleString()}</p>
-            <p className="product">📦 {order.item_name}</p>
-            <p className="category">🏷️ Category: {order.item_category}</p>
-            <p className="price">💰 Price: ${order.item_price}</p>
-            <p className="quantity">🔢 Quantity: {order.item_qty}</p>
-            <p className="subtotal">🧾 Subtotal: ${(order.item_subtotal).toFixed(2)}</p>
-            <img src={order.item_image} alt={order.item_name} className="product-image" />
-          <div className="status-control">
-          
-          <label>Status:</label>
-          <select
-            value={order.order_status}
-            onChange={(e) => handleStatusChange(order._id, order.order_id, e.target.value)}
-          >
-            <option value="Pending">Pending</option>
-            <option value="Confirmed">Confirmed</option>
-            <option value="Packed">Packed</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Out for Delivery">Out for Delivery</option>
-            <option value="Delivered">Delivered</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
+        <div className="order-list-header">
+          <span>Product</span>
+          <span>Price</span>
+          <span>Date</span>
+          <span>Action</span>
         </div>
-          
-        </div>
-        ))
       )}
+
+      {orders.map(order => (
+        <div key={order._id} className="order-row">
+          <div>🏷️{order.item_name}</div>
+          <div>{order.item_price}</div>
+          <div>{new Date(order.createdAt).toLocaleString()}</div>
+          <div>
+            <button
+              className="cancel-btn"
+              onClick={() => navigate(`/TrackSellerOrder/${order._id}`)}
+            >
+              View Details
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

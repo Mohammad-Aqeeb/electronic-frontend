@@ -7,7 +7,7 @@ function CreateProduct() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const [formData, setFormData] = useState({
-    seller_id : user._id,
+    seller_id : user ? user._id : "",
     item_name: '',
     item_category: '',
     item_price: '',
@@ -16,7 +16,6 @@ function CreateProduct() {
     item_image: '',
     item_discount: ''
   });
-
 
   function handleChange(e){
     const { name, value } = e.target;
@@ -48,7 +47,7 @@ function CreateProduct() {
     formPayload.append("seller_id", formData.seller_id);
 
     try{
-      api.post("/addProduct", formPayload, {
+      await api.post("/addProduct", formPayload, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

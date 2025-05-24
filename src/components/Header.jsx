@@ -1,21 +1,20 @@
 import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Header.css';
-import { CartContext } from '../contex/CartContex';
 import { BiSolidUser } from "react-icons/bi";
+import { AuthContext } from '../contex/AuthContex';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCart } from '../Redux/slice/cartSlice';
 
 function Header() {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const {cartItems, setCartItems} = useContext(CartContext)
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  function logoutHandler(){
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setCartItems([]);
-    navigate("/login");
-  }
+  const user = JSON.parse(localStorage.getItem("user"));
+  
+  const cartItems = useSelector((state) => state.cart.items);
+  
+  const {logout} = useContext(AuthContext);
 
   return (
     <header className="header">
@@ -35,12 +34,15 @@ function Header() {
           <div className="user-menu">
             <div className="user-name">
               <BiSolidUser className="user-icon" />
-              {user.name || "Account"}
+              {user.name}
             </div>
             <div className="dropdown-menu">
               <div onClick={() => navigate('/')}>👤 Profile</div>
               <div onClick={() => navigate('/MyOrder')}>📦 My Orders</div>
-              <div onClick={logoutHandler}>🚪 Sign Out</div>
+              <div onClick={()=>{
+                logout();
+                dispatch(clearCart());
+              }}>🚪 Sign Out</div>
             </div>
           </div>
           ) : (

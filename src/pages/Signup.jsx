@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';
-import api from '../api';
 import toast from 'react-hot-toast';
+import api from '../api';
 
 function Signup() {
   const navigate = useNavigate();
+  
   const [ formData, setFormData ] = useState({name : "", email : "", phone: "", password : "", confirmPassword : "", role : ""});
 
   function changeHandler(event){
@@ -19,17 +20,23 @@ function Signup() {
 
   async function handleSubmit(event){
     event.preventDefault();
-    try{
-     const res = await api.post("/userSignup", formData); 
-     console.log(res.data);
-     toast.success("User Signup success");
-     navigate("/login");
+    try {
+      const res = await api.post("/userSignup", formData);
+      navigate("/login");
+      toast.success("singup success");
     }
-    catch(error){
-      console.log(error);
+    catch (error) {
+      console.error("Signup failed:", error);
       toast.error(error.response.data.message);
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className="signup-container">
@@ -39,8 +46,8 @@ function Signup() {
           <label htmlFor="role">Select Role</label>
           <select id="role" name='role' onChange={changeHandler} required >
             <option value="">-- Choose Role --</option>
-            <option value="user">User</option>
-            <option value="seller">Seller</option>
+            <option value="User">User</option>
+            <option value="Seller">Seller</option>
           </select>
 
           <label htmlFor="name">Full Name</label>

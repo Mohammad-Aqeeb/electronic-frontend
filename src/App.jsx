@@ -8,6 +8,9 @@ import MyOrder from './components/MyOrder';
 import CreateProduct from './components/CreateProduct';
 import SellerDashboard from './components/sellerDashboard';
 import TrackMyOrder from './components/TrackMyOrder'
+import TrackSellerOrder from './components/TrackSellerOrder';
+import AdminDashboard from './components/AdminDashboard';
+import NotFoundPage from './components/NotFoundPage';
 
 function App() {
   return (
@@ -18,9 +21,12 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/cart" element={<Cart/>} />
         <Route path="/MyOrder" element={<MyOrder/>} />
-        <Route path="/createProduct" element={<CreateProduct/>} />
-        <Route path='/sellerDashboard' element={<SellerDashboard/>}/>
         <Route path="/trackOrder/:id" element={<TrackMyOrder />} />
+        <Route path="/createProduct" element={<CreateProduct/>} />
+        <Route path='/sellerDashboard' element={<SellerDashboard/>} />
+        <Route path="/TrackSellerOrder/:id" element={<TrackSellerOrder/>} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="*" element={<NotFoundPage/>} />
       </Routes>
     </div>
   );

@@ -1,25 +1,21 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './Home.css';
 import Header from "../components/Header";
 import ProductCard from '../components/ProductCard';
-import api from '../api';
 import toast from 'react-hot-toast';
-import { CartContext } from '../contex/CartContex';
 import Footer from '../components/Footer';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCart } from '../Redux/slice/cartSlice';
+import { fetchProducts } from '../Redux/slice/productSlice';
 
 function Home() {
-  const [products, setProducts] = useState([]);
-  const {setCartItems} = useContext(CartContext);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const dispatch = useDispatch();
+  const { products } = useSelector(state => state.product);
 
   async function getData(){
     try{
-      let res = await api.get("/itemGet");
-      setProducts(res.data.data);
-      if(user){
-        res = await api.get(`/getCartData/${user._id}`);
-        setCartItems(res.data.data);
-      }
+      dispatch(fetchProducts());
+      dispatch(fetchCart());
     }
     catch(error){
       console.log(error);
@@ -27,7 +23,7 @@ function Home() {
     }
   }
 
-  useState(()=>{
+  useEffect(()=>{
     getData();
   },[]);
 

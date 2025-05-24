@@ -1,37 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import './MyOrder.css';
-import api from '../api';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMyOrders } from '../Redux/slice/myOrderSlice';
 
 function MyOrder() {
   const navigate = useNavigate();
-  const [orders, setOrders] = useState([]);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const dispatch = useDispatch();
+  const {orders} = useSelector(state => state.myOrder)
 
   const fetchOrders = async () => {
     try {
-      const response = await api.get(`/getMyOrder/${user._id}`);
-      setOrders(response.data.data);
-    } catch (error) {
+      await dispatch(fetchMyOrders()).unwrap();
+    }
+    catch (error) {
       console.error(error);
       toast.error("Failed to fetch orders");
     }
   };
 
   useEffect(() => {
-    if (user && user._id) {
-      fetchOrders();
-    } else {
-      toast.error("User not logged in");
-    }
+    fetchOrders();
   }, []);
   
   return (
     <div className="orders-container">
       <h2>My Orders</h2>
       {orders.length === 0 ? (
-        <p>No orders found.</p>
+        <p>No orders found</p>
       ) : (
         <div className="order-list-header">
           <span>Item</span>
@@ -58,7 +55,9 @@ function MyOrder() {
           <div>{order.item_discount || '—'}%</div>
           <div>${parseFloat(order.item_subtotal).toFixed(2)}</div>
           <div>
-            <button className="cancel-btn" onClick={() => navigate(`/trackOrder/${order._id}`)}>Track My Order</button>
+            <button className="cancel-btn" onClick={() =>{
+              navigate(`/trackOrder/${order._id}`)
+            }}>Track My Order</button>
           </div>
         </div>
       ))}

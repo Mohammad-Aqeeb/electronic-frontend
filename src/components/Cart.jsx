@@ -1,84 +1,34 @@
-import React, { useContext, useEffect } from 'react';
-import './Cart.css'; // if you created a separate file
-import { CartContext } from '../contex/CartContex';
-import api from '../api';
+import { useEffect } from 'react';
+import './Cart.css';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { checkOutHandler, fetchCart, removeCartItem, updateQtyMinus, updateQtyPlus } from '../Redux/slice/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Cart() {
   const navigate = useNavigate();
-  const { cartItems, setCartItems} = useContext(CartContext);
+  const dispatch = useDispatch();
+  const cartItems = useSelector(state => state.cart.items);
+  const cartStatus = useSelector(state => state.cart.status);
+
   const user = JSON.parse(localStorage.getItem("user"));
 
   let totalAmount = cartItems.reduce((total , item)=>
     total + item.item_subtotal, 0
   )
 
-  async function updatePlusHandler(id){
-    try{
-      await api.put(`updateQtyPlus/${id}`);
-      getCartItem();
-    }
-    catch(error){
-      console.log(error);
-      toast.error("Failed to update quantity")
-    }
-  }
-
-  async function updateMinusHandler(id){
-    try{
-      await api.put(`updateQtyMinus/${id}`);
-      getCartItem();
-    }
-    catch(error){
-      console.log(error);
-      toast.error("Failed to update quantity")
-    }
-  }
-
-  async function removeItemHandler(id){
-    try{
-      await api.delete(`/deleteCartItem/${id}`);
-      toast.success("Item deleted from cart");
-      getCartItem()
-    }
-    catch(error){
-      console.log(error);
-      toast.error("Failed to remove");
-    }
-  }
-
-  function checkOutHandler(){
-    cartItems.map(async (item)=>{
-      try{
-        await api.post("/postMyOrder", item);
-        await api.delete(`/deleteCartItem/${item._id}`);
-      }
-      catch(error){
-        console.log(error);
-        toast.error(error.message);
-      }
-    })
-    navigate("/MyOrder");
-    setCartItems([]);
-  }
-
   async function getCartItem(){
     if(user){
-      try{
-        const res = await api.get(`/getCartData/${user._id}`);
-        console.log(res.data.data)
-        setCartItems(res.data.data);
-      }
-      catch(error){
-        console.log(error);
-      }
+      dispatch(fetchCart());
     }
   }
 
   useEffect(()=>{
     getCartItem();
   },[])
+
+  if (cartStatus === 'loading') {
+    return <p>Loading cart...</p>;
+  }
 
   return (
     <div className="cart-container">
@@ -107,20 +57,20 @@ function Cart() {
                 }
                 <div className="quantity-container">
                   <div>Quantity: </div>
-                  <button onClick={()=>{updateMinusHandler(item._id)}}>-</button>
+                  <button onClick={()=>{ dispatch(updateQtyMinus(item._id)) }} disabled={item.item_qty <= 1}>-</button>
                   <div className="quantity">{item.item_qty}</div>
-                  <button onClick={()=>{updatePlusHandler(item._id)}}>+</button>
+                  <button onClick={()=>{ dispatch(updateQtyPlus(item._id)) }}>+</button>
                 </div>
               </div>
-              <button className='cart-item-button' onClick={()=>{removeItemHandler(item._id)}}>Remove</button>
+              <button className='cart-item-button' onClick={()=>{ dispatch(removeCartItem(item._id)) }}>Remove</button>
             </div>
           ))
         )
       }
 
       <div className='checkoutContainer'>
-        <div>Total amount : {totalAmount.toFixed(2)}</div>
-        <button onClick={checkOutHandler} disabled={cartItems.length === 0}>CheckOut</button>
+        <div>Total amount : ${totalAmount.toFixed(2)}</div>
+        <button onClick={()=>{dispatch(checkOutHandler()).then(() => navigate("/MyOrder"))}} disabled={cartItems.length === 0}>CheckOut</button>
       </div>
     </div>
   );

@@ -3,16 +3,19 @@ import './ProductCard.css';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import api from '../api';
-import { CartContext } from '../contex/CartContex';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCart } from '../Redux/slice/cartSlice';
 
 
 function ProductCard({item}) {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("user"));
-  const {cartItems, setCartItems} = useContext(CartContext);
+  const cartItems = useSelector(state => state.cart.items);
 
+  
   const isInCart = cartItems.some((product)=>{ return product.item_id === item._id });
 
   async function addtoCartHandler(item){
@@ -33,8 +36,7 @@ function ProductCard({item}) {
         await api.post("/addCart", obj)
         toast.success("item added to cart");
         
-        const res = await api.get(`/getCartData/${user._id}`);
-        setCartItems(res.data.data);
+        dispatch(fetchCart());
       }
       catch(error){
         toast.error("Item not added");

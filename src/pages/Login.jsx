@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import toast from 'react-hot-toast';
@@ -25,8 +25,8 @@ function Login() {
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      
-      toast.success("User Login success");
+      console.log(res)
+      toast.success(res.data.message);
       navigate("/");
     }
     catch(error){
@@ -34,6 +34,13 @@ function Login() {
       toast.error(error.response.data.message);
     }
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className="login-container">

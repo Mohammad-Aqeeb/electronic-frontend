@@ -7,7 +7,8 @@ import TrackMyOrderReducer from './slice/TrackMyOrderSlice';
 import sellerDashboardReducer from './slice/sellerDashboardSlice';
 import myOrderReducer from './slice/myOrderSlice';
 import adminDashbordReducer from './slice/adminDashBoardSlice';
-import productReducer from "./slice/productSlice"
+import productReducer from "./slice/productSlice";
+import networkReducer from "./slice/networkSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     sellerDashboard : sellerDashboardReducer,
     myOrder : myOrderReducer,
     adminDashbord : adminDashbordReducer,
-    product  : productReducer
+    product  : productReducer,
+    network: networkReducer,
   }
 });

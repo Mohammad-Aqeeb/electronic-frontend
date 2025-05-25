@@ -5,5 +5,5 @@ export function setLogout(fn){
 };
 
 export function getLogout(){
-    return logoutFunction;
+  return logoutFunction;
 }

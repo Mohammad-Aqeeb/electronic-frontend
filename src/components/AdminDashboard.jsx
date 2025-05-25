@@ -8,7 +8,7 @@ function AdminDashboard() {
   const dispatch = useDispatch();
   const [view, setView] = useState('products');
 
-  const {products, users , orders} = useSelector(state => state.adminDashbord)
+  const {products, users , orders, status} = useSelector(state => state.adminDashbord)
 
   async function getDetails(){
     try{

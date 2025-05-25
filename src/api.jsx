@@ -1,9 +1,9 @@
 import axios from 'axios';
+import { getLogout } from './logoutHandler';
 
 const api = axios.create({
   baseURL: 'http://localhost:5000/api'
 });
-
 
 api.interceptors.request.use(
   (config) => {
@@ -15,6 +15,17 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status === 401) {
+      const logout = getLogout();
+      if (logout) logout(); // ✅ call context-based logout
+    }
     return Promise.reject(error);
   }
 );

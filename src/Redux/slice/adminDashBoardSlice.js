@@ -46,7 +46,9 @@ const adminDashboardReducer = createSlice({
     status: 'idle',
     error: null
   },
+
   reducers: {},
+  
   extraReducers: builder => {
     builder
       .addCase(fetchAllProducts.pending, (state) => {

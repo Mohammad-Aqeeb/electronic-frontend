@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getLogout } from './logoutHandler';
+import { setOffline } from './Redux/slice/networkSlice';
 
 const api = axios.create({
   baseURL: 'http://localhost:5000/api'
@@ -22,6 +23,13 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+
+    if(!window.navigator.onLine) {
+      const { store } = require('./Redux/store');
+      store.dispatch(setOffline());
+      return;
+    }
+
     if (error.response.status === 401) {
       const logout = getLogout();
       if (logout) logout(); // ✅ call context-based logout

@@ -82,11 +82,11 @@ const TrackSellerOrder = () => {
           {orderSteps.map((step, index) => {
             const className =
               index < currentStepIndex
-                ? "step done"
-                : index === currentStepIndex
-                ? "step current"
-                : "step upcoming";
-
+              ? "step done"
+              : index === currentStepIndex
+              ? "step current"
+              : "step upcoming";
+              
             return (
               <div key={step} className={className}>
                 <div className="dott" />

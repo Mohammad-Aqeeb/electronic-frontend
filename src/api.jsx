@@ -32,7 +32,7 @@ api.interceptors.response.use(
 
     if (error.response.status === 401) {
       const logout = getLogout();
-      if (logout) logout(); // ✅ call context-based logout
+      if (logout) logout();  // call context-based logout
     }
     return Promise.reject(error);
   }

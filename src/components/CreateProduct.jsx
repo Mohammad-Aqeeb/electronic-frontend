@@ -59,7 +59,7 @@ function CreateProduct() {
     };
 
     console.log(formData);
-    // Clear form
+
     setFormData({
       item_name: '',
       item_category: '',

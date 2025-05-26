@@ -55,17 +55,17 @@ function ProductCard({item}) {
         <p className="description">{item.item_dsc}</p>
         
         {
-            item.item_discount ? (
-            <p className="price">
-                <span className="discounted-price">
-                    ${(item.item_price * (1 - parseFloat(item.item_discount) / 100)).toFixed(2)}
-                </span>
-                <span className="original-price">${item.item_price.toFixed(2)}</span>
-                <span className="discount-badge">-{item.item_discount}%</span>
-            </p>
-            ) : (
-            <p className="price">${item.item_price.toFixed(2)}</p>
-            )
+          item.item_discount ? (
+          <p className="price">
+              <span className="discounted-price">
+                  ${(item.item_price * (1 - parseFloat(item.item_discount) / 100)).toFixed(2)}
+              </span>
+              <span className="original-price">${item.item_price.toFixed(2)}</span>
+              <span className="discount-badge">-{item.item_discount}%</span>
+          </p>
+          ) : (
+          <p className="price">${item.item_price.toFixed(2)}</p>
+          )
         }
         {
           isInCart ?  

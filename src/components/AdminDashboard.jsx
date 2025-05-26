@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './AdminDashboard.css';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';

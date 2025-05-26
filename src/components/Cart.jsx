@@ -24,9 +24,9 @@ function Cart() {
 
   useEffect(()=>{
     getCartItem();
-  },[])
+  },[cartItems])
 
-  if (cartStatus === 'loading') {
+  if(cartStatus === 'loading') {
     return <p>Loading cart...</p>;
   }
 

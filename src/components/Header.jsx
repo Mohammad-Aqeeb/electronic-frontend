@@ -28,8 +28,7 @@ function Header() {
       </div>
 
       <div className="right">
-        {
-         user ? 
+        { user ? 
           (
           <div className="user-menu">
             <div className="user-name">

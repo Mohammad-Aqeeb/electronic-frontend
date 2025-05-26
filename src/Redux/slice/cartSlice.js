@@ -33,7 +33,7 @@ export const removeCartItem = createAsyncThunk("cart/removeItem", async (id) => 
 export const checkOutHandler = createAsyncThunk("cart/checkout", async (_, {getState}) => {
     const state = getState();
     const cartItems = state.cart.items;
-    console.log(cartItems);
+
     try{
       await Promise.all(cartItems.map(async (item)=>{
         const res = await api.get(`/itemGet/${item.item_id}`)

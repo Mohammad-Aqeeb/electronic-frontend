@@ -55,9 +55,12 @@ function MyOrder() {
           <div>{order.item_discount || '—'}%</div>
           <div>${parseFloat(order.item_subtotal).toFixed(2)}</div>
           <div>
-            <button className="cancel-btn" onClick={() =>{
-              navigate(`/trackOrder/${order._id}`)
-            }}>Track My Order</button>
+            <button 
+              className="cancel-btn" 
+              onClick={() =>{ navigate(`/trackOrder/${order._id}`)}}
+            >
+              Track My Order
+            </button>
           </div>
         </div>
       ))}

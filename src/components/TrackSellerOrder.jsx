@@ -34,7 +34,6 @@ const TrackSellerOrder = () => {
     }
 
     try {
-      console.log(id);
       await dispatch(updateOrderStatus({ id, status: selectedStatus })).unwrap();
       toast.success("Order status updated");
       setSelectedStatus("");

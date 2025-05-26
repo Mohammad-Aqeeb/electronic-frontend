@@ -25,7 +25,7 @@ function Login() {
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      console.log(res)
+
       toast.success(res.data.message);
       navigate("/");
     }

@@ -86,7 +86,7 @@ const TrackSellerOrder = () => {
               : index === currentStepIndex
               ? "step current"
               : "step upcoming";
-              
+
             return (
               <div key={step} className={className}>
                 <div className="dott" />
@@ -97,19 +97,19 @@ const TrackSellerOrder = () => {
         </div>
 
         { orderTrack.order_status !== "Cancelled" &&
-            <div className="status-dropdown">
-                <label><strong>Update Status:</strong></label>
-                <select onChange={(e) => setSelectedStatus(e.target.value)}>
-                        <option value="">-- Select Status --</option>
-                        <option key="Confirmed" value="Confirmed">Confirmed</option>
-                        <option key="Packed" value="Packed">Packed</option>
-                        <option key="Shipped" value="Shipped">Shipped</option>
-                        <option key="Cancelled" value="Cancelled">Cancelled</option>
-                </select>
-                <button className="update-btn" onClick={handleStatusChange}>
-                    Update Status
-                </button>
-            </div>
+          <div className="status-dropdown">
+              <label><strong>Update Status:</strong></label>
+              <select onChange={(e) => setSelectedStatus(e.target.value)}>
+                      <option value="">-- Select Status --</option>
+                      <option key="Confirmed" value="Confirmed">Confirmed</option>
+                      <option key="Packed" value="Packed">Packed</option>
+                      <option key="Shipped" value="Shipped">Shipped</option>
+                      <option key="Cancelled" value="Cancelled">Cancelled</option>
+              </select>
+              <button className="update-btn" onClick={handleStatusChange}>
+                  Update Status
+              </button>
+          </div>
         }
         <button className="back-btn" onClick={() => navigate(-1)}>⬅ Back</button>
       </div>

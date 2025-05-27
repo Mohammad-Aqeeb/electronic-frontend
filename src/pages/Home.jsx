@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './Home.css';
 import Header from "../components/Header";
 import ProductCard from '../components/ProductCard';

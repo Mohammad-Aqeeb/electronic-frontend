@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 function NoInternet(){
@@ -8,7 +9,7 @@ function NoInternet(){
     if (navigator.onLine) {
       navigate('/');
     } else {
-      alert('Still offline');
+      toast.error('Still offline');
     }
   };
 

@@ -7,25 +7,24 @@ function Footer() {
       <div className="footer-container">
         
         <div className="footer-section">
-          <h4>ClassicShop</h4>
-          <p>Bringing you quality products at the best prices.</p>
+          <h3>ClassicShop</h3>
+          <p>Your go-to destination for quality and value.</p>
         </div>
 
         <div className="footer-section">
-          <h5>Why ClassicShop?</h5>
+          <h4>Why Choose Us?</h4>
           <ul>
-            <li>✅ Quality Products at Best Prices</li>
-            <li>🚚 Fast & Free Delivery</li>
-            <li>🔄 Easy Returns within 7 Days</li>
-            <li>💳 Secure Payment Gateway</li>
+            <li>✅ Premium Quality Products</li>
+            <li>🚚 Fast & Free Shipping</li>
+            <li>🔁 Hassle-Free Returns (7 Days)</li>
+            <li>🔒 Secure Payment Options</li>
           </ul>
         </div>
 
         <div className="footer-section">
-          <h5>Contact</h5>
-          <p>Email: support@classicshop.com</p>
-          {/* <p>Phone: +91 98765 43210</p> */}
-          <p>Phone : +91 7440786288</p>
+          <h4>Contact Us</h4>
+          <p>Email: <a href="mailto:support@classicshop.com">support@classicshop.com</a></p>
+          <p>Phone: <a href="tel:+917440786288">+91 74407 86288</a></p>
         </div>
 
       </div>
@@ -33,7 +32,6 @@ function Footer() {
         &copy; {new Date().getFullYear()} ClassicShop. All rights reserved.
       </div>
     </footer>
-
   );
 }
 

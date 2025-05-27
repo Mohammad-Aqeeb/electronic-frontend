@@ -36,7 +36,7 @@ function Header() {
               {user.name}
             </div>
             <div className="dropdown-menu">
-              <div onClick={() => navigate('/')}>👤 Profile</div>
+              <div onClick={() => navigate('/user')}>👤 Profile</div>
               <div onClick={() => navigate('/MyOrder')}>📦 My Orders</div>
               <div onClick={()=>{
                 logout();

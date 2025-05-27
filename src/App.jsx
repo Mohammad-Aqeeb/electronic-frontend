@@ -15,6 +15,7 @@ import TrackMyOrder from './components/TrackMyOrder'
 import TrackSellerOrder from './components/TrackSellerOrder';
 import AdminDashboard from './components/AdminDashboard';
 import NetworkWatcher from './components/NetworkWatcher';
+import UserProfile from './components/userProfile';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/user" element={<UserProfile />} />
         <Route path="/cart" element={<Cart/>} />
         <Route path="/MyOrder" element={<MyOrder/>} />
         <Route path="/trackOrder/:id" element={<TrackMyOrder />} />

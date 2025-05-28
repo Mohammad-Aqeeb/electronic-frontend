@@ -16,7 +16,8 @@ import TrackSellerOrder from './components/TrackSellerOrder';
 import AdminDashboard from './components/AdminDashboard';
 import NetworkWatcher from './components/NetworkWatcher';
 import UserProfile from './components/userProfile';
-
+import NewOrder from './components/newOrder';
+import MyProducts from './components/MyProducts';
 
 function App() {
   return (
@@ -30,8 +31,12 @@ function App() {
         <Route path="/cart" element={<Cart/>} />
         <Route path="/MyOrder" element={<MyOrder/>} />
         <Route path="/trackOrder/:id" element={<TrackMyOrder />} />
-        <Route path="/createProduct" element={<CreateProduct/>} />
-        <Route path='/sellerDashboard' element={<SellerDashboard/>} />
+        <Route path="/sellerDashboard" element={<SellerDashboard />}>
+          <Route index element={<NewOrder/>} />             
+          <Route path='newOrder' element={<NewOrder/>} />
+          <Route path='myProducts' element={<MyProducts/>} />
+          <Route path="createProduct" element={<CreateProduct/>} />
+        </Route>
         <Route path="/TrackSellerOrder/:id" element={<TrackSellerOrder/>} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/no-internet" element={<NoInternet />} />

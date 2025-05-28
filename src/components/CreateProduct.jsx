@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import './CreateProduct.css';
 import toast from 'react-hot-toast';
 import api from '../api';
@@ -7,7 +7,7 @@ function CreateProduct() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const [formData, setFormData] = useState({
-    seller_id : user ? user._id : "",
+    seller_id : user ? user._id : '',
     item_name: '',
     item_category: '',
     item_price: '',
@@ -27,7 +27,6 @@ function CreateProduct() {
 
   function handleFileChange(e){
     const file = e.target.files[0];
-
     if (file) {
       setFormData(prev => ({ ...prev, item_image: file}));
     }

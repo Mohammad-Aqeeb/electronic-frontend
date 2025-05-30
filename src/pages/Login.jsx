@@ -27,7 +27,12 @@ function Login() {
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
       toast.success(res.data.message);
-      navigate("/");
+      
+      if(res.data.user.role === "Seller") {
+        navigate("/sellerDashboard");
+      } else {
+        navigate("/");
+      }
     }
     catch(error){
       console.log(error)
@@ -37,8 +42,14 @@ function Login() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
     if (token) {
-      navigate("/");
+      if (user.role === "Seller") {
+        navigate("/sellerDashboard");
+      } else {
+        navigate("/");
+      }
     }
   }, []);
 

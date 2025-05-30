@@ -1,4 +1,3 @@
-// src/Redux/slice/orderSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api';
 
@@ -23,7 +22,6 @@ export const fetchSellerProducts = createAsyncThunk(
   async ( _, { rejectWithValue }) => {
     try {
       const res = await api.get(`/geProductsBySellerID`);
-      console.log(res);
       return res.data.data;
     } 
     catch (err) {

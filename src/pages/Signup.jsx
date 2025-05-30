@@ -21,7 +21,7 @@ function Signup() {
   async function handleSubmit(event){
     event.preventDefault();
     try {
-      const res = await api.post("/userSignup", formData);
+      await api.post("/userSignup", formData);
       navigate("/login");
       toast.success("singup success");
     }
@@ -33,8 +33,14 @@ function Signup() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
     if (token) {
-      navigate("/");
+      if (user.role === "Seller") {
+        navigate("/sellerDashboard");
+      } else {
+        navigate("/");
+      }
     }
   }, []);
 

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import './UserProfile.css'
 import api from '../api';
-function UserProfile(){
 
+
+function UserProfile(){
   const user = JSON.parse(localStorage.getItem("user"));
 
   const [editMode, setEditMode] = useState(false);

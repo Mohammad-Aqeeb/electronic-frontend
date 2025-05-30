@@ -3,6 +3,7 @@ import './Cart.css';
 import { useNavigate } from 'react-router-dom';
 import { checkOutHandler, fetchCart, removeCartItem, updateQtyMinus, updateQtyPlus } from '../Redux/slice/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 function Cart() {
   const navigate = useNavigate();
@@ -15,6 +16,29 @@ function Cart() {
   let totalAmount = cartItems.reduce((total , item)=>
     total + item.item_subtotal, 0
   )
+
+  async function removeFromCart(item_id){
+    try{
+      await dispatch(removeCartItem(item_id)).unwrap();
+      console.log("BB")
+      toast.success("Item removed from cart");
+    }
+    catch(error){
+      console.error(error);
+      toast.error(error);
+    }
+  } 
+  async function checkOut(){
+    try{
+      await dispatch(checkOutHandler()).unwrap();
+      toast.success("order placed successful");
+      navigate("/MyOrder");
+    }
+    catch(error){
+      console.log(error);
+      toast.error(error);
+    }
+  }
 
   async function getCartItem(){
     if(user){
@@ -62,7 +86,7 @@ function Cart() {
                   <button onClick={()=>{ dispatch(updateQtyPlus(item._id)) }}>+</button>
                 </div>
               </div>
-              <button className='cart-item-button' onClick={()=>{ dispatch(removeCartItem(item._id)) }}>Remove</button>
+              <button className='cart-item-button' onClick={()=>{removeFromCart(item._id)}}>Remove</button>
             </div>
           ))
         )
@@ -70,7 +94,7 @@ function Cart() {
 
       <div className='checkoutContainer'>
         <div>Total amount : ${totalAmount.toFixed(2)}</div>
-        <button onClick={()=>{dispatch(checkOutHandler()).then(() => navigate("/MyOrder"))}} disabled={cartItems.length === 0}>CheckOut</button>
+        <button onClick={checkOut} disabled={cartItems.length === 0}>CheckOut</button>
       </div>
     </div>
   );

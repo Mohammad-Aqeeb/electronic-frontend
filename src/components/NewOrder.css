@@ -28,7 +28,7 @@
   flex: 1;
 }
 
-.cancel-btn {
+.cancel-btn1 {
   background-color: #1976d2;
   color: white;
   border: none;
@@ -37,7 +37,7 @@
   border-radius: 4px;
 }
 
-.cancel-btn:hover {
+.cancel-btn1:hover {
   background-color: #125ea8;
 }
 

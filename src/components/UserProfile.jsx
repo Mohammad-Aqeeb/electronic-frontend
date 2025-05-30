@@ -10,7 +10,7 @@ function UserProfile(){
 
   if (!user) return <div>Loading...</div>;
 
-const handleChange = e => {
+  const handleChange = e => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value

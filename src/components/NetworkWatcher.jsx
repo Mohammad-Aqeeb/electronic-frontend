@@ -10,7 +10,6 @@ const NetworkWatcher = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-
     const handleOnline = () => {
       console.log('✅ Internet reconnected');
       dispatch(setOnline());
@@ -34,6 +33,7 @@ const NetworkWatcher = () => {
   }, [dispatch, navigate]);
 
   useEffect(() => {
+    console.log(isOffline);
     if (isOffline && window.location.pathname !== '/no-internet') {
       navigate('/no-internet');
     }

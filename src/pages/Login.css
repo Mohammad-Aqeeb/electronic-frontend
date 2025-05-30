@@ -63,7 +63,6 @@
   
   /* ReadMe Button */
   .rememberMeContainer{
-    width: 20%;
     display: flex;
     align-items: baseline;
     gap: 5px;

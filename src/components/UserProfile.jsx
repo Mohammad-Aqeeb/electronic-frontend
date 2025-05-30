@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import './UserProfile.css'
 import api from '../api';
-
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { useNavigate } from 'react-router-dom';
 
 function UserProfile(){
   const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
 
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone: '' });
@@ -31,6 +33,9 @@ function UserProfile(){
   return (
     <div className="profile-wrapper">
       <div className="profile-card">
+        <div className='back-button' onClick={() => navigate(-1)}>
+          <IoMdArrowRoundBack />
+        </div>
         <div className="profile-avatar">
           <img src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`} alt="User Avatar" />
         </div>

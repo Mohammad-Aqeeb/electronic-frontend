@@ -1,36 +1,54 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api';
-import toast from 'react-hot-toast';
 
-export const fetchCart = createAsyncThunk('cart/fetch', async () => {
+export const fetchCart = createAsyncThunk('cart/fetch', async (_, {rejectWithValue}) => {
     const user = JSON.parse(localStorage.getItem('user'));
   
-    if(user){
+    try{
+      if(user){
         const res = await api.get('/getCartData');
         return res.data.data;
-    }
-    else{
+      }
+      else{
         return [];
+      }
+    }
+    catch(error){
+      return rejectWithValue(error.response.data.message || error.message);
     }
 });
 
-export const updateQtyPlus = createAsyncThunk("cart/updatePlus", async (id) => {
-  const res = await api.put(`updateQtyPlus/${id}`);
-  return res.data.result;
+export const updateQtyPlus = createAsyncThunk("cart/updatePlus", async (id, {rejectWithValue}) => {
+  try{
+    const res = await api.put(`updateQtyPlus/${id}`);
+    return res.data.result;
+  }
+  catch(error){
+    return rejectWithValue(error.response.data.message || error.message);
+  }
 });
 
-export const updateQtyMinus = createAsyncThunk("cart/updateMinus", async (id) => {
-  const res = await api.put(`updateQtyMinus/${id}`);
-  return res.data.result;
+export const updateQtyMinus = createAsyncThunk("cart/updateMinus", async (id, {rejectWithValue}) => {
+  try{
+    const res = await api.put(`updateQtyMinus/${id}`);
+    return res.data.result;
+  }
+  catch(error){
+    return rejectWithValue(error.response.data.message || error.message);
+  }
 });
 
-export const removeCartItem = createAsyncThunk("cart/removeItem", async (id) => {
-  await api.delete(`/deleteCartItem/${id}`);
-  toast.success("Item removed from cart");
-  return id;
+export const removeCartItem = createAsyncThunk("cart/removeItem", async (id, {rejectWithValue}) => {
+  try{
+    await api.delete(`/deleteCartItem/${id}`);
+    return id;
+  }
+  catch(error){
+    return rejectWithValue(error.response.data.message || error.message);
+  }
 });
 
-export const checkOutHandler = createAsyncThunk("cart/checkout", async (_, {getState}) => {
+export const checkOutHandler = createAsyncThunk("cart/checkout", async (_, {getState, rejectWithValue}) => {
     const state = getState();
     const cartItems = state.cart.items;
 
@@ -46,11 +64,9 @@ export const checkOutHandler = createAsyncThunk("cart/checkout", async (_, {getS
         await api.post(`/updateOrder/${order.data.data._id}`, {status : "Pending", userType : "User"});
 
       }));
-      toast.success('Order placed successfully'); 
     }
     catch(error){
-      console.log(error);
-      toast.error("Something went wrong");
+      return rejectWithValue(error.response.data.message || error.message);
     }    
   }
 )

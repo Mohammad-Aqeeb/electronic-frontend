@@ -42,7 +42,7 @@ function NewOrder(){
       {orders.map(order => (
         <div key={order._id} className="order-row">
           <div>🏷️ {order.item_name}</div>
-          <div>{order.item_price}</div>
+          <div>${order.item_price}</div>
           <div>{new Date(order.createdAt).toLocaleString()}</div>
           <div>
             <button
